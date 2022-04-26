@@ -1,0 +1,12 @@
+.wrapper {
+    margin-top: 50px;
+    padding: 10px;
+    background: #ccc;
+    border-radius: 20px;
+}
+.margin-10 {
+    margin: 10px 0px;
+}
+label {
+    font-weight: bold;
+}
