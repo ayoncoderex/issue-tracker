@@ -1,14 +1,12 @@
 // localstorage item key
 let dbName = "issueDB";
 
-
 // dom element references
 const issueDescription = document.getElementById("description");
 const issueSeverity = document.getElementById("severity");
 const issueAssignedTo = document.getElementById("assigned-to");
 const addBtn = document.getElementById("add");
 const showIssuesDiv = document.getElementById("show-issues");
-
 
 // resets the text input fields
 function resetIssueInput() {
@@ -72,11 +70,11 @@ function showIssues() {
   if (issuesList == null) return;
   let issuesListArray = JSON.parse(issuesList);
 
-  for(let i = issuesListArray.length - 1; i >=0 ; i--) {
+  for (let i = issuesListArray.length - 1; i >= 0; i--) {
     let issue = issuesListArray[i];
     let element = createIssueElement(issue);
     showIssuesDiv.append(element);
-  };
+  }
 }
 
 // creates and returns an issue dom element with all the styles
@@ -115,19 +113,76 @@ function createIssueElement(issue) {
   return wrapperDiv;
 }
 
-// updates a single issue element
+// updates a single issue dom element
 function updateIssueElement(issueID) {
+  let issuesList = localStorage.getItem(dbName);
+  if (issuesList == null) return;
+  let issuesListArray = JSON.parse(issuesList);
+  let issue = null;
+  for (let i = 0; i < issuesListArray.length; i++) {
+    if (issuesListArray[i].id == issueID) {
+      issue = issuesListArray[i];
+      break;
+    }
+  }
+  if (issue == null) {
+    console.log("Removed");
+  }
 
+  for (let i = 0; i < showIssuesDiv.children.length; i++) {
+    let issueElementWrapper = showIssuesDiv.children[i];
+    let issueElementIdNode = issueElementWrapper.children[0];
+    let issueElementIdString = issueElementIdNode.innerText.slice(4);
+    if (issueElementIdString == issueID) {
+      let issueElementStatusNode = issueElementWrapper.children[1];
+      let issueElementDescriptionNode = issueElementWrapper.children[2];
+      let issueElementSeverityNode = issueElementWrapper.children[3];
+      let issueElementAssignedToNode = issueElementWrapper.children[4];
+      issueElementStatusNode.innerText = issue.status;
+      issueElementDescriptionNode.innerText = issue.description;
+      issueElementSeverityNode.innerText = issue.severity;
+      issueElementAssignedToNode.innerText = issue.assignedTo;
+      break;
+    }
+  }
 }
-// function deleteIssue(id) {
-//   let issuesList = localStorage.getItem(dbName);
-//   if (issuesList == null) return;
-//   let issuesListArray = JSON.parse(issuesList);
-//   for(let i = 0; i < issuesListArray.length; i++) {
+function deleteIssue(issueID) {
+  let issuesList = localStorage.getItem(dbName);
+  if (issuesList == null) return;
+  let issuesListArray = JSON.parse(issuesList);
+  let issueIndex = -1;
+  for (let i = 0; i < issuesListArray.length; i++) {
+    if (issuesListArray[i].id == issueID) {
+      issueIndex = i;
+      break;
+    }
+  }
+  console.log(issuesListArray);
+  console.log(issueIndex);
+  if (issueIndex == -1) return;
+  //   issuesListArray.splice(issueIndex, 1);
+  localStorage.setItem(dbName, JSON.stringify(issuesListArray));
+  updateIssueElement(issueID);
+}
 
-//   }
-//   localStorage.setItem(dbName, JSON.stringify(issuesListArray));
-// }
+function closeIssue(issueID) {
+  let issuesList = localStorage.getItem(dbName);
+  if (issuesList == null) return;
+  let issuesListArray = JSON.parse(issuesList);
+  let issueIndex = -1;
+  for (let i = 0; i < issuesListArray.length; i++) {
+    if (issuesListArray[i].id == issueID) {
+      issueIndex = i;
+      break;
+    }
+  }
+  console.log(issueIndex);
+
+  if (issueIndex == -1) return;
+  issuesListArray[issueIndex].status = "closed";
+  localStorage.setItem(dbName, JSON.stringify(issuesListArray));
+  updateIssueElement(issueID);
+}
 
 addBtn.addEventListener("click", addIssue);
 showIssues();
