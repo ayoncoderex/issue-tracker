@@ -7,6 +7,9 @@
 .margin-10 {
   margin: 10px;
 }
+.margin-5 {
+  margin: 5px;
+}
 label {
   font-weight: bold;
 }
@@ -29,4 +32,9 @@ label {
   width: 100%;
   background: #1f1f1f;
   visibility: hidden;
+  text-align: center;
+}
+
+#keyboard-keys {
+  text-align: center;
 }

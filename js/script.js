@@ -270,7 +270,7 @@ for (let i = 0; i < keys.length; i++) {
   for (let j = 0; j < keys[i].length; j++) {
     let keyElement = document.createElement("button");
     keyElement.setAttribute("onclick", `keyPress('${keys[i][j]}')`);
-    keyElement.setAttribute("class", "btn btn-primary btn-sm margin-10");
+    keyElement.setAttribute("class", "btn btn-primary btn-lg margin-5");
     keyElement.innerText = keys[i][j];
     keyboardKeys.appendChild(keyElement);
   }
