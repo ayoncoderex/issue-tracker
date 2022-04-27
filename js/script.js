@@ -103,8 +103,8 @@ function createIssueElement(issue) {
   idDiv.innerText = "ID: " + issue.id;
   statusButton.innerText = issue.status;
   descriptionDiv.innerText = issue.description;
-  severityDiv.innerText = issue.severity;
-  assigendToDiv.innerText = issue.assignedTo;
+  severityDiv.innerText = "Severity: " + issue.severity;
+  assigendToDiv.innerText = "Assigned to: " + issue.assignedTo;
   closeButton.innerText = "Close";
   deleteButton.innerText = "Delete";
   wrapperDiv.append(idDiv);
@@ -147,7 +147,7 @@ function updateIssueElement(issueID) {
   }
 }
 
-// removes an issue dom element from view when the 
+// removes an issue dom element from view when the
 function removeIssueElement(issueID) {
   for (let i = 0; i < showIssuesDiv.children.length; i++) {
     let issueElementWrapper = showIssuesDiv.children[i];
