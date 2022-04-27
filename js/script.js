@@ -51,6 +51,7 @@ function addIssue() {
     alert(checkResult);
   }
 }
+
 // stores the issue to localstorage
 function saveToLocalStorage(issue) {
   let issuesList = localStorage.getItem(dbName);
@@ -64,7 +65,7 @@ function saveToLocalStorage(issue) {
   }
 }
 
-// fetches all the issues in localstorages and shows in html
+// fetches all the issues in localstorages and shows the issue list. Only called in the first load
 function showIssues() {
   let issuesList = localStorage.getItem(dbName);
   if (issuesList == null) return;
@@ -77,7 +78,8 @@ function showIssues() {
   }
 }
 
-// creates and returns an issue dom element with all the styles
+// creates and returns an issue dom element with necessary children preconfigured
+// Only handles the issue element rendering part. does not communicate with the localstorage at all
 function createIssueElement(issue) {
   let wrapperDiv = document.createElement("div");
   let idDiv = document.createElement("div");
@@ -92,8 +94,10 @@ function createIssueElement(issue) {
   statusButton.setAttribute("class", "btn btn-info btn-sm");
   descriptionDiv.setAttribute("class", "description");
   closeButton.setAttribute("class", "btn btn-warning margin-10");
+  // set the close button to call closeIssue function with issue id
   closeButton.setAttribute("onclick", `closeIssue("${issue.id}");`);
   deleteButton.setAttribute("class", "btn btn-danger margin-10");
+  // set the delete button to call closeIssue function with issue id
   deleteButton.setAttribute("onclick", `deleteIssue("${issue.id}");`);
 
   idDiv.innerText = "ID: " + issue.id;
@@ -113,7 +117,7 @@ function createIssueElement(issue) {
   return wrapperDiv;
 }
 
-// updates a single issue dom element
+// updates the content of a single issue dom element when the localstorage data has changed
 function updateIssueElement(issueID) {
   let issuesList = localStorage.getItem(dbName);
   if (issuesList == null) return;
@@ -125,10 +129,6 @@ function updateIssueElement(issueID) {
       break;
     }
   }
-  if (issue == null) {
-    console.log("Removed");
-  }
-
   for (let i = 0; i < showIssuesDiv.children.length; i++) {
     let issueElementWrapper = showIssuesDiv.children[i];
     let issueElementIdNode = issueElementWrapper.children[0];
@@ -146,6 +146,21 @@ function updateIssueElement(issueID) {
     }
   }
 }
+
+// removes an issue dom element from view when the 
+function removeIssueElement(issueID) {
+  for (let i = 0; i < showIssuesDiv.children.length; i++) {
+    let issueElementWrapper = showIssuesDiv.children[i];
+    let issueElementIdNode = issueElementWrapper.children[0];
+    let issueElementIdString = issueElementIdNode.innerText.slice(4);
+    if (issueElementIdString == issueID) {
+      issueElementWrapper.remove();
+      break;
+    }
+  }
+}
+
+// deletes an issue from localstorage and calls the removeIssueElement to reflect the changes
 function deleteIssue(issueID) {
   let issuesList = localStorage.getItem(dbName);
   if (issuesList == null) return;
@@ -157,14 +172,13 @@ function deleteIssue(issueID) {
       break;
     }
   }
-  console.log(issuesListArray);
-  console.log(issueIndex);
   if (issueIndex == -1) return;
-  //   issuesListArray.splice(issueIndex, 1);
+  issuesListArray.splice(issueIndex, 1);
   localStorage.setItem(dbName, JSON.stringify(issuesListArray));
-  updateIssueElement(issueID);
+  removeIssueElement(issueID);
 }
 
+// sets the issue status to closed in localstorage and calls the update function to render the changes
 function closeIssue(issueID) {
   let issuesList = localStorage.getItem(dbName);
   if (issuesList == null) return;
@@ -176,8 +190,6 @@ function closeIssue(issueID) {
       break;
     }
   }
-  console.log(issueIndex);
-
   if (issueIndex == -1) return;
   issuesListArray[issueIndex].status = "closed";
   localStorage.setItem(dbName, JSON.stringify(issuesListArray));
@@ -185,4 +197,5 @@ function closeIssue(issueID) {
 }
 
 addBtn.addEventListener("click", addIssue);
+// load and render the issues from localstorage initially
 showIssues();
