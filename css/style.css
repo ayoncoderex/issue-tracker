@@ -22,3 +22,11 @@ label {
   height: 1.5em;
   margin: 0.2em;
 }
+#keyboard-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #1f1f1f;
+  visibility: hidden;
+}

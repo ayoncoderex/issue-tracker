@@ -215,3 +215,64 @@ function closeIssue(issueID) {
 addBtn.addEventListener("click", addIssue);
 // load and render the issues from localstorage initially
 showIssues();
+
+/* 
+  Virtual Keyboard
+*/
+// used to keep track the last focused input element
+let inputElement = null;
+let keyboardWrapper = document.querySelector("#keyboard-wrapper");
+let keyboardKeys = document.querySelector("#keyboard-keys");
+let keys = [
+  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+  ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+  ["z", "x", "c", "v", "b", "n", "m"],
+];
+
+// save the last focused active element
+function setInputElement() {
+  if (document.activeElement.tagName == "INPUT") {
+    inputElement = document.activeElement;
+    showKeyboard();
+  }
+}
+// press any keys
+function keyPress(key) {
+  if (inputElement != null) {
+    inputElement.value += key;
+    if (inputElement.setSelectionRange) {
+      inputElement.focus();
+      inputElement.setSelectionRange(
+        inputElement.value.length,
+        inputElement.value.length
+      );
+    }
+  }
+}
+// backspace
+function deleteKey() {
+  if (inputElement != null) {
+    inputElement.value = inputElement.value.substr(
+      0,
+      inputElement.value.length - 1
+    );
+  }
+}
+function hideKeyboard() {
+  keyboardWrapper.style.visibility = "hidden";
+}
+function showKeyboard() {
+  keyboardWrapper.style.visibility = "visible";
+}
+
+// render the keys
+for (let i = 0; i < keys.length; i++) {
+  for (let j = 0; j < keys[i].length; j++) {
+    let keyElement = document.createElement("button");
+    keyElement.setAttribute("onclick", `keyPress('${keys[i][j]}')`);
+    keyElement.setAttribute("class", "btn btn-primary btn-sm margin-10");
+    keyElement.innerText = keys[i][j];
+    keyboardKeys.appendChild(keyElement);
+  }
+  keyboardKeys.appendChild(document.createElement("br"));
+}

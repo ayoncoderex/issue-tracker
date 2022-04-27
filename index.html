@@ -20,27 +20,44 @@
       crossorigin="anonymous"
     ></script>
   </head>
-  <body>
+  <body onclick="setInputElement()">
     <div class="container wrapper">
       <div class="form-group">
         <label for="description">Description</label>
-        <input type="text" class="form-control" id="description" placeholder="Describe the issue..."/>
+        <input
+          type="text"
+          class="form-control"
+          id="description"
+          placeholder="Describe the issue..."
+        />
       </div>
       <div class="form-group">
-          <label for="severity">Severity</label>
+        <label for="severity">Severity</label>
         <select class="form-control" id="severity">
           <option>Low</option>
           <option>Medium</option>
           <option>High</option>
         </select>
-      </div>  
+      </div>
       <div class="form-group">
         <label for="assigned-to">Assigned To</label>
-        <input type="text" id="assigned-to" class="form-control" placeholder="Enter Responsible...">
+        <input
+          type="text"
+          id="assigned-to"
+          class="form-control"
+          placeholder="Enter Responsible..."
+        />
       </div>
       <button class="btn btn-primary margin-10 btn-lg" id="add">Add</button>
     </div>
     <div id="show-issues"></div>
+    <div id="keyboard-wrapper">
+      <div id="keyboard-keys"></div>
+      <button class="btn btn-primary btn-sm" onclick="deleteKey()">←</button>
+      <button class="btn btn-primary btn-sm" onclick="hideKeyboard()">
+        Close Keyboard
+      </button>
+    </div>
     <script src="js/script.js"></script>
   </body>
 </html>
