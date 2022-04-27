@@ -16,3 +16,9 @@ label {
   font-weight: bold;
   margin: 0.5em;
 }
+
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  margin: 0.2em;
+}

@@ -8,6 +8,10 @@ const issueAssignedTo = document.getElementById("assigned-to");
 const addBtn = document.getElementById("add");
 const showIssuesDiv = document.getElementById("show-issues");
 
+// icons
+const userIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>`;
+const timerIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`
+
 // resets the text input fields
 function resetIssueInput() {
   issueDescription.value = "";
@@ -103,8 +107,8 @@ function createIssueElement(issue) {
   idDiv.innerText = "ID: " + issue.id;
   statusButton.innerText = issue.status;
   descriptionDiv.innerText = issue.description;
-  severityDiv.innerText = "Severity: " + issue.severity;
-  assigendToDiv.innerText = "Assigned to: " + issue.assignedTo;
+  severityDiv.innerHTML = timerIcon + issue.severity;
+  assigendToDiv.innerHTML = userIcon + issue.assignedTo;
   closeButton.innerText = "Close";
   deleteButton.innerText = "Delete";
   wrapperDiv.append(idDiv);
@@ -140,8 +144,8 @@ function updateIssueElement(issueID) {
       let issueElementAssignedToNode = issueElementWrapper.children[4];
       issueElementStatusNode.innerText = issue.status;
       issueElementDescriptionNode.innerText = issue.description;
-      issueElementSeverityNode.innerText = issue.severity;
-      issueElementAssignedToNode.innerText = issue.assignedTo;
+      issueElementSeverityNode.innerHTML = timerIcon + issue.severity;
+      issueElementAssignedToNode.innerHTML = userIcon + issue.assignedTo;
       break;
     }
   }
