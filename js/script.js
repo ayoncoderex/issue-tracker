@@ -10,7 +10,17 @@ const showIssuesDiv = document.getElementById("show-issues");
 
 // icons
 const userIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>`;
-const timerIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`
+const timerIcon = `<svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+
+let issueAutoDeleteDuration = 600000;
+
+// autmatically deletes the issue after a certain period
+function autoDelete(issueID) {
+  setTimeout(() => {
+    deleteIssue(issueID);
+    removeIssueElement(issueID);
+  }, issueAutoDeleteDuration);
+}
 
 // resets the text input fields
 function resetIssueInput() {
@@ -51,6 +61,8 @@ function addIssue() {
     resetIssueInput();
     let element = createIssueElement(issue);
     showIssuesDiv.prepend(element);
+    // automatically delete the issue after a duration
+    autoDelete(issue.id);
   } else {
     alert(checkResult);
   }
@@ -151,7 +163,7 @@ function updateIssueElement(issueID) {
   }
 }
 
-// removes an issue dom element from view when the
+// removes an issue dom element from view
 function removeIssueElement(issueID) {
   for (let i = 0; i < showIssuesDiv.children.length; i++) {
     let issueElementWrapper = showIssuesDiv.children[i];
